@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js API Demo</title>
+</head>
+<body>
+    <h1>Bienvenido a la Demo de la API de Node.js</h1>
+
+    <h2>Mensaje de Saludo</h2>
+    <button onclick="obtenerSaludo()">Obtener Saludo</button>
+    <p id="saludo"></p>
+
+    <h2>Sumar Números</h2>
+    <input type="number" id="num1" placeholder="Número 1">
+    <input type="number" id="num2" placeholder="Número 2">
+    <button onclick="sumarNumeros()">Sumar</button>
+    <p id="resultadoSuma"></p>
+
+    <h2>Obtener Personaje de SWAPI</h2>
+    <input type="number" id="idPersonaje" placeholder="ID del Personaje">
+    <button onclick="obtenerPersonaje()">Obtener Personaje</button>
+    <pre id="datosPersonaje"></pre>
+
+    <script>
+        function obtenerSaludo() {
+            fetch('/api')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('saludo').innerText = data.mensaje;
+                });
+        }
+
+        function sumarNumeros() {
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+            fetch(`/api/suma?num1=${num1}&num2=${num2}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('resultadoSuma').innerText = `Resultado: ${data.resultado}`;
+                });
+        }
+
+        function obtenerPersonaje() {
+            const idPersonaje = document.getElementById('idPersonaje').value;
+            fetch(`/api/swapi/${idPersonaje}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('datosPersonaje').innerText = JSON.stringify(data.personaje, null, 2);
+                });
+        }
+    </script>
+</body>
+</html>
